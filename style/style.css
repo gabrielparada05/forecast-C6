@@ -1,0 +1,30 @@
+header {
+    background: rgb(126,123,179);
+background: linear-gradient(90deg, rgba(126,123,179,1) 10%, rgba(90,90,193,0.6756827731092436) 52%, rgba(0,212,255,1) 94%);
+color:white;
+text-align: center;
+}
+
+.input-group{
+    width: 30%;
+}
+
+h4 {
+    font-weight: bold;
+}
+
+#forecast-title{
+    text-align: center;
+}
+#search-box{
+    width:25%;
+    text-align: center;
+}
+
+.card{
+    border: none;
+}
+
+.border {
+border: none!important;
+}

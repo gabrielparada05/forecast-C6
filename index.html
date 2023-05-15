@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/style.css">
+
 
     <title>Document</title>
 </head>
@@ -17,32 +20,34 @@
     <aside> 
         <div>
             <div>
-                <label for="city">Search for a City:</label>
-                <input type="search" id="city" name="city" placeholder="City"> </input>
-                <button type="button"  id="btn-search">Search</button>
+                <h4>Search for a City:</h4>
+                <div class="input-group">
+                <input type="search" id="city" name="city" placeholder="Search" class="form-control"> 
+                <div class="input-group-btn">
+                <button type="button" class="btn btn-default"  id="btn-search"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
             </div>
             <div class="search-history"></div>
             <div class="storage-history"> </div>
         </div>
     </aside>
 
-    <section id="search-box">
-        <div id="current-search">
-            <div id="cityName"></div>
+    <section id="search-box" class="container">
+        <div id="current-search" class="card shadow-o border">
+            <h4 class="mb-1 sfw-normal" id="cityName"></h4>
             <div id="description"></div>
             <div id="temperature"></div>
             <div id="humidity"></div>
-        </div>
-        <div id="forecast"> 
-            <h3> 5-Day Forecast </h3>
-            <div id="day-1">  </div>
-            <div id="day-2">  </div>
-            <div id="day-3">  </div>
-            <div id="day-4">  </div>
-            <div id="day-5">  </div>
-        </div>
-        
+        </div>        
     </section>
+    <h3 id="forecast-title"> </h3>
+    <div id="forecast" class="row"> 
+        <div id="day-1" class="col">  </div>
+        <div id="day-2" class="col">  </div>
+        <div id="day-3" class="col">  </div>
+        <div id="day-4" class="col">  </div>
+        <div id="day-5" class="col">  </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="./script/script.js"></script>

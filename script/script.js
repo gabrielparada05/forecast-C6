@@ -9,8 +9,9 @@ var apiStateCountryCall = "&limit=5";
 var apiUnit = "&units=metric";
 var apiKey = "&appid=5870a7ba8243f556b3b63a64facf2c17";
 var cityName = document.querySelector("#cityName");
-var searchHistory = document.querySelector(".search-history")
-var searchStorage = document.querySelector(".storage-history")
+var searchHistory = document.querySelector(".search-history");
+var searchStorage = document.querySelector(".storage-history");
+var forecastTitle = document.querySelector("#forecast-title");
 
 // Get search history from localStorage
 
@@ -63,6 +64,16 @@ var getCity = function (city) {
           displayCity(data);
           cityName.textContent = data.name + ", " + data.sys.country;
         });
+        // Add city to search history array and save to localStorage
+searchHistoryArray.push(city);
+localStorage.setItem("Search Results", JSON.stringify(searchHistoryArray));
+
+// Add city to search history list
+var searchItem = document.createElement("li");
+searchItem.textContent = city;
+searchHistory.appendChild(searchItem);
+
+
       } else {
         alert("Error: " + response.statusText);
       }
@@ -71,14 +82,7 @@ var getCity = function (city) {
       alert("Unable to connect to Weather Map");
     });
 
-// Add city to search history array and save to localStorage
-searchHistoryArray.push(city);
-localStorage.setItem("Search Results", JSON.stringify(searchHistoryArray));
 
-// Add city to search history list
-var searchItem = document.createElement("li");
-searchItem.textContent = city;
-searchHistory.appendChild(searchItem);
 
 }
 
@@ -124,143 +128,174 @@ var displayForecast = function (dataFor) {
   var day3 = document.querySelector("#day-3");
   var day4 = document.querySelector("#day-4");
   var day5 = document.querySelector("#day-5");
+  
+  forecastTitle.textContent="5-Day Forecast"
 
-  var day1TempMax = dataFor.list[0].main.temp_max;
+  var day1Temp = dataFor.list[0].main.temp;
   var day1x = dataFor.list[0].weather[0].icon;
   var day1Desc = "http://openweathermap.org/img/w/"+ day1x + ".png";
-  var day1TempMin= dataFor.list[0].main.temp_min;
+  var day1Wind= dataFor.list[0].wind.speed;
   var day1Date = dataFor.list[0].dt_txt;
+  var day1Humidity = dataFor.list[0].main.humidity;
 
-  var day2TempMax = dataFor.list[8].main.temp_max;
+  var day2Temp = dataFor.list[8].main.temp;
   var day2x = dataFor.list[8].weather[0].icon;
   var day2Desc = "http://openweathermap.org/img/w/"+ day2x + ".png";
-  var day2TempMin= dataFor.list[8].main.temp_min;
+  var day2Wind= dataFor.list[8].wind.speed;
   var day2Date = dataFor.list[8].dt_txt;
+  var day2Humidity = dataFor.list[8].main.humidity;
 
-  var day3TempMax = dataFor.list[16].main.temp_max;
+  var day3Temp = dataFor.list[16].main.temp;
   var day3x = dataFor.list[16].weather[0].icon;
   var day3Desc = "http://openweathermap.org/img/w/"+ day3x + ".png";
-  var day3TempMin= dataFor.list[16].main.temp_min;
+  var day3Wind= dataFor.list[16].wind.speed;
   var day3Date = dataFor.list[16].dt_txt;
+  var day3Humidity = dataFor.list[16].main.humidity;
 
-  var day4TempMax = dataFor.list[24].main.temp_max;
+  var day4Temp = dataFor.list[24].main.temp;
   var day4x = dataFor.list[24].weather[0].icon;
   var day4Desc = "http://openweathermap.org/img/w/"+ day4x + ".png"
-  var day4TempMin= dataFor.list[24].main.temp_min;
+  var day4Wind= dataFor.list[24].wind.speed;
   var day4Date = dataFor.list[24].dt_txt;
+  var day4Humidity = dataFor.list[24].main.humidity;
 
-  var day5TempMax = dataFor.list[32].main.temp_max;
+  var day5Temp = dataFor.list[32].main.temp;
   var day5x = dataFor.list[32].weather[0].icon;
   var day5Desc = "http://openweathermap.org/img/w/"+ day5x + ".png"
-  var day5TempMin= dataFor.list[32].main.temp_min;
+  var day5Wind= dataFor.list[32].wind.speed;
   var day5Date = dataFor.list[32].dt_txt;
+  var day5Humidity = dataFor.list[32].main.humidity;
   
 
   //DAY 1
+
+  var day1New = new Date (day1Date)
+  var day1DateEl = document.createElement("p");
+  day1DateEl.textContent = day1New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric"});
+  day1.appendChild(day1DateEl);
 
   var day1DescEl = document.createElement("img");
   day1DescEl.setAttribute("src", day1Desc)
   day1.appendChild(day1DescEl);
 
-  var day1New = new Date (day1Date)
-  var day1DateEl = document.createElement("p");
-  day1DateEl.textContent = "Date: " + day1New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric"});
-  day1.appendChild(day1DateEl);
 
-  var day1TempMinEl = document.createElement("p");
-  day1TempMinEl.textContent = "Temp Min: " + day1TempMin + " °C";
-  day1.appendChild(day1TempMinEl);
+
+  var day1WindEl = document.createElement("p");
+  day1WindEl.textContent = "Wind: " + day1Wind + " Km/h";
+  day1.appendChild(day1WindEl);
  
-  var day1TempMaxEl = document.createElement("p");
-  day1TempMaxEl.textContent = "Temp Max: " + day1TempMax + " °C";
-  day1.appendChild(day1TempMaxEl);
+  var day1TempEl = document.createElement("p");
+  day1TempEl.textContent = "Temp: " + day1Temp + " °C";
+  day1.appendChild(day1TempEl);
+
+  var day1HumEl = document.createElement("p");
+  day1HumEl.textContent = "Humidity: " + day1Humidity + " %";
+  day1.appendChild(day1HumEl);
 
  
 
   /// DAY 2
 
+  var day2New = new Date (day2Date)
+  var day2DateEl = document.createElement("p");
+  day2DateEl.textContent = day2New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  day2.appendChild(day2DateEl);
+
   var day2DescEl = document.createElement("img");
   day2DescEl.setAttribute("src", day2Desc)
   day2.appendChild(day2DescEl);
 
-  var day2New = new Date (day2Date)
-  var day2DateEl = document.createElement("p");
-  day2DateEl.textContent = "Date: " + day2New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
-  day2.appendChild(day2DateEl);
 
-  var day2TempMinEl = document.createElement("p");
-  day2TempMinEl.textContent = "Temp Min: " + day2TempMin + " °C";
-  day2.appendChild(day2TempMinEl);
 
-  var day2TempMaxEl = document.createElement("p");
-  day2TempMaxEl.textContent = "Temp Max: " + day2TempMax + " °C";
-  day2.appendChild(day2TempMaxEl);
+  var day2WindEl = document.createElement("p");
+  day2WindEl.textContent = "Wind: " + day2Wind + " Km/h";
+  day2.appendChild(day2WindEl);
 
+  var day2TempEl = document.createElement("p");
+  day2TempEl.textContent = "Temp: " + day2Temp + " °C";
+  day2.appendChild(day2TempEl);
+
+  var day2HumEl = document.createElement("p");
+  day2HumEl.textContent = "Humidity: " + day2Humidity + " %";
+  day2.appendChild(day2HumEl);
  
 
 
   // DAY 3
 
+  var day3New = new Date (day3Date)
+  var day3DateEl = document.createElement("p");
+  day3DateEl.textContent =  day3New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  day3.appendChild(day3DateEl);
   
   var day3DescEl = document.createElement("img");
   day3DescEl.setAttribute("src", day3Desc)
   day3.appendChild(day3DescEl);
 
-  var day3New = new Date (day3Date)
-  var day3DateEl = document.createElement("p");
-  day3DateEl.textContent = "Date: " + day3New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
-  day3.appendChild(day3DateEl);
 
-  var day3TempMinEl = document.createElement("p");
-  day3TempMinEl.textContent = "Temp Min: " + day3TempMin + " °C";
-  day3.appendChild(day3TempMinEl);
+  var day3WindEl = document.createElement("p");
+  day3WindEl.textContent = "Wind: " + day3Wind + " Km/h";
+  day3.appendChild(day3WindEl);
 
-  var day3TempMaxEl = document.createElement("p");
-  day3TempMaxEl.textContent = "Temp Max: " + day3TempMax + " °C";
-  day3.appendChild(day3TempMaxEl);
+  var day3TempEl = document.createElement("p");
+  day3TempEl.textContent = "Temp: " + day3Temp + " °C";
+  day3.appendChild(day3TempEl);
+
+  var day3HumEl = document.createElement("p");
+  day3HumEl.textContent = "Humidity: " + day3Humidity + " %";
+  day3.appendChild(day3HumEl);
 
 
  // DAY 4
+
+ var day4New = new Date (day4Date)
+ var day4DateEl = document.createElement("p");
+ day4DateEl.textContent = day4New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+ day4.appendChild(day4DateEl);
 
  var day4DescEl = document.createElement("img");
  day4DescEl.setAttribute("src", day4Desc)
  day4.appendChild(day4DescEl);
 
-  var day4New = new Date (day4Date)
-  var day4DateEl = document.createElement("p");
-  day4DateEl.textContent = "Date: " + day4New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
-  day4.appendChild(day4DateEl);
+  
+  var day4WindEl = document.createElement("p");
+  day4WindEl.textContent = "Wind: " + day4Wind + " Km/h";
+  day4.appendChild(day4WindEl);
 
-  var day4TempMinEl = document.createElement("p");
-  day4TempMinEl.textContent = "Temp Min: " + day4TempMin + " °C";
-  day4.appendChild(day4TempMinEl);
+  var day4TempEl = document.createElement("p");
+  day4TempEl.textContent = "Temp: " + day4Temp + " °C";
+  day4.appendChild(day4TempEl);
 
-  var day4TempMaxEl = document.createElement("p");
-  day4TempMaxEl.textContent = "Temp Max: " + day4TempMax + " °C";
-  day4.appendChild(day4TempMaxEl);
+  var day4HumEl = document.createElement("p");
+  day4HumEl.textContent = "Humidity: " + day4Humidity + " %";
+  day4.appendChild(day4HumEl);
 
 
 
 
   // DAY 5
 
+  var day5New = new Date(day5Date)
+  var day5DateEl = document.createElement("p");
+  day5DateEl.textContent = day5New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  day5.appendChild(day5DateEl);
+
   var day5DescEl = document.createElement("img");
   day5DescEl.setAttribute("src", day5Desc)
   day5.appendChild(day5DescEl);
 
-  var day5New = new Date(day5Date)
-  var day5DateEl = document.createElement("p");
-  day5DateEl.textContent = "Date: " + day5New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
-  day5.appendChild(day5DateEl);
 
-  var day5TempMinEl = document.createElement("p");
-  day5TempMinEl.textContent = "Temp Min: " + day5TempMin + " °C";
-  day5.appendChild(day5TempMinEl);
+  var day5WindEl = document.createElement("p");
+  day5WindEl.textContent = "Wind: " + day5Wind + " Km/h";
+  day5.appendChild(day5WindEl);
 
-  var day5TempMaxEl = document.createElement("p");
-  day5TempMaxEl.textContent = "Temp Max: " + day5TempMax + " °C";
-  day5.appendChild(day5TempMaxEl);
+  var day5TempEl = document.createElement("p");
+  day5TempEl.textContent = "Temp: " + day5Temp + " °C";
+  day5.appendChild(day5TempEl);
 
+  var day5HumEl = document.createElement("p");
+  day5HumEl.textContent = "Humidity: " + day5Humidity + " %";
+  day5.appendChild(day5HumEl);
 }
 
 
