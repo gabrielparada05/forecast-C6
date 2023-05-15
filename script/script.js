@@ -9,6 +9,24 @@ var apiStateCountryCall = "&limit=5";
 var apiUnit = "&units=metric";
 var apiKey = "&appid=5870a7ba8243f556b3b63a64facf2c17";
 var cityName = document.querySelector("#cityName");
+var searchHistory = document.querySelector(".search-history")
+var searchStorage = document.querySelector(".storage-history")
+
+// Get search history from localStorage
+
+var searchHistoryArray;
+if (localStorage.getItem("Search Results")) {
+  searchHistoryArray = JSON.parse(localStorage.getItem("Search Results"))
+  var myJSON = localStorage.getItem("Search Results");
+  var myObject = JSON.parse(myJSON);
+  searchStorage.innerHTML = myObject;
+  var storageItem = document.createElement("li");
+  storageItem.textContent = city;
+  searchStorage.appendChild(storageItem);
+} else {
+  searchHistoryArray = [];
+}
+
 
 
 /// Call current
@@ -19,11 +37,19 @@ function formSubmitHandler(event) {
 
   if (city) {
     getCity(city);
-    inputSearch.value = '';
+    inputSearch.value = "";
   } else {
-    alert('Please enter a City');
+    alert("Please enter a City");
   }
-};
+ 
+allCities = []
+
+function submit() {
+  var cities = document.inputSearch.value;
+  allCities.push(cities);
+  localStorage.setItem("names", cities)
+}
+}
 
 var getCity = function (city) {
   var apiUrl = apiCall + city + apiStateCountryCall + apiUnit + apiKey;
@@ -38,25 +64,35 @@ var getCity = function (city) {
           cityName.textContent = data.name + ", " + data.sys.country;
         });
       } else {
-        alert('Error: ' + response.statusText);
+        alert("Error: " + response.statusText);
       }
     })
     .catch(function (error) {
-      alert('Unable to connect to Weather Map');
+      alert("Unable to connect to Weather Map");
     });
+
+// Add city to search history array and save to localStorage
+searchHistoryArray.push(city);
+localStorage.setItem("Search Results", JSON.stringify(searchHistoryArray));
+
+// Add city to search history list
+var searchItem = document.createElement("li");
+searchItem.textContent = city;
+searchHistory.appendChild(searchItem);
+
 }
 
 var displayCity = function (data) {
-  var temperatureEl = document.querySelector('#temperature');
-  var descriptionEl = document.querySelector('#description');
-  var humidityEl = document.querySelector('#humidity');
+  var temperatureEl = document.querySelector("#temperature");
+  var descriptionEl = document.querySelector("#description");
+  var humidityEl = document.querySelector("#humidity");
 
   var temperaturePrint = data.main.temp;
   var descriptionPrint = data.weather[0].main;
   var humidityPrint = data.main.humidity;
 
-  temperatureEl.textContent = 'Temperature: ' + temperaturePrint + " °C";
-  descriptionEl.textContent = 'Weather: ' + descriptionPrint;
+  temperatureEl.textContent = "Temperature: " + temperaturePrint + " °C";
+  descriptionEl.textContent = "Weather: " + descriptionPrint;
   humidityEl.textContent = "Humidity: " + humidityPrint + " %";
 
  getForecast(data.name)
@@ -73,21 +109,21 @@ var getForecast = function (city) {
           displayForecast(dataFor);
         });
       } else {
-        alert('Error: ' + response1.statusText);
+        alert("Error: " + response1.statusText);
       }
     })
     .catch(function (error) {
-      alert('Unable to connect to Weather Map');
+      alert("Unable to connect to Weather Map");
     });
 
     
 }
 var displayForecast = function (dataFor) {
-  var day1 = document.querySelector('#day-1');
-  var day2 = document.querySelector('#day-2');
-  var day3 = document.querySelector('#day-3');
-  var day4 = document.querySelector('#day-4');
-  var day5 = document.querySelector('#day-5');
+  var day1 = document.querySelector("#day-1");
+  var day2 = document.querySelector("#day-2");
+  var day3 = document.querySelector("#day-3");
+  var day4 = document.querySelector("#day-4");
+  var day5 = document.querySelector("#day-5");
 
   var day1TempMax = dataFor.list[0].main.temp_max;
   var day1x = dataFor.list[0].weather[0].icon;
@@ -122,42 +158,42 @@ var displayForecast = function (dataFor) {
 
   //DAY 1
 
-  var day1DescEl = document.createElement('img');
+  var day1DescEl = document.createElement("img");
   day1DescEl.setAttribute("src", day1Desc)
   day1.appendChild(day1DescEl);
 
   var day1New = new Date (day1Date)
-  var day1DateEl = document.createElement('p');
-  day1DateEl.textContent = 'Date: ' + day1New.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric'});
+  var day1DateEl = document.createElement("p");
+  day1DateEl.textContent = "Date: " + day1New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric"});
   day1.appendChild(day1DateEl);
 
-  var day1TempMinEl = document.createElement('p');
-  day1TempMinEl.textContent = 'Temp Min: ' + day1TempMin + " °C";
+  var day1TempMinEl = document.createElement("p");
+  day1TempMinEl.textContent = "Temp Min: " + day1TempMin + " °C";
   day1.appendChild(day1TempMinEl);
  
-  var day1TempMaxEl = document.createElement('p');
-  day1TempMaxEl.textContent = 'Temp Max: ' + day1TempMax + " °C";
+  var day1TempMaxEl = document.createElement("p");
+  day1TempMaxEl.textContent = "Temp Max: " + day1TempMax + " °C";
   day1.appendChild(day1TempMaxEl);
 
  
 
   /// DAY 2
 
-  var day2DescEl = document.createElement('img');
+  var day2DescEl = document.createElement("img");
   day2DescEl.setAttribute("src", day2Desc)
   day2.appendChild(day2DescEl);
 
   var day2New = new Date (day2Date)
-  var day2DateEl = document.createElement('p');
-  day2DateEl.textContent = 'Date: ' + day2New.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  var day2DateEl = document.createElement("p");
+  day2DateEl.textContent = "Date: " + day2New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   day2.appendChild(day2DateEl);
 
-  var day2TempMinEl = document.createElement('p');
-  day2TempMinEl.textContent = 'Temp Min: ' + day2TempMin + " °C";
+  var day2TempMinEl = document.createElement("p");
+  day2TempMinEl.textContent = "Temp Min: " + day2TempMin + " °C";
   day2.appendChild(day2TempMinEl);
 
-  var day2TempMaxEl = document.createElement('p');
-  day2TempMaxEl.textContent = 'Temp Max: ' + day2TempMax + " °C";
+  var day2TempMaxEl = document.createElement("p");
+  day2TempMaxEl.textContent = "Temp Max: " + day2TempMax + " °C";
   day2.appendChild(day2TempMaxEl);
 
  
@@ -166,41 +202,41 @@ var displayForecast = function (dataFor) {
   // DAY 3
 
   
-  var day3DescEl = document.createElement('img');
+  var day3DescEl = document.createElement("img");
   day3DescEl.setAttribute("src", day3Desc)
   day3.appendChild(day3DescEl);
 
   var day3New = new Date (day3Date)
-  var day3DateEl = document.createElement('p');
-  day3DateEl.textContent = 'Date: ' + day3New.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  var day3DateEl = document.createElement("p");
+  day3DateEl.textContent = "Date: " + day3New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   day3.appendChild(day3DateEl);
 
-  var day3TempMinEl = document.createElement('p');
-  day3TempMinEl.textContent = 'Temp Min: ' + day3TempMin + " °C";
+  var day3TempMinEl = document.createElement("p");
+  day3TempMinEl.textContent = "Temp Min: " + day3TempMin + " °C";
   day3.appendChild(day3TempMinEl);
 
-  var day3TempMaxEl = document.createElement('p');
-  day3TempMaxEl.textContent = 'Temp Max: ' + day3TempMax + " °C";
+  var day3TempMaxEl = document.createElement("p");
+  day3TempMaxEl.textContent = "Temp Max: " + day3TempMax + " °C";
   day3.appendChild(day3TempMaxEl);
 
 
  // DAY 4
 
- var day4DescEl = document.createElement('img');
+ var day4DescEl = document.createElement("img");
  day4DescEl.setAttribute("src", day4Desc)
  day4.appendChild(day4DescEl);
 
   var day4New = new Date (day4Date)
-  var day4DateEl = document.createElement('p');
-  day4DateEl.textContent = 'Date: ' + day4New.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  var day4DateEl = document.createElement("p");
+  day4DateEl.textContent = "Date: " + day4New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   day4.appendChild(day4DateEl);
 
-  var day4TempMinEl = document.createElement('p');
-  day4TempMinEl.textContent = 'Temp Min: ' + day4TempMin + " °C";
+  var day4TempMinEl = document.createElement("p");
+  day4TempMinEl.textContent = "Temp Min: " + day4TempMin + " °C";
   day4.appendChild(day4TempMinEl);
 
-  var day4TempMaxEl = document.createElement('p');
-  day4TempMaxEl.textContent = 'Temp Max: ' + day4TempMax + " °C";
+  var day4TempMaxEl = document.createElement("p");
+  day4TempMaxEl.textContent = "Temp Max: " + day4TempMax + " °C";
   day4.appendChild(day4TempMaxEl);
 
 
@@ -208,32 +244,69 @@ var displayForecast = function (dataFor) {
 
   // DAY 5
 
-  var day5DescEl = document.createElement('img');
+  var day5DescEl = document.createElement("img");
   day5DescEl.setAttribute("src", day5Desc)
   day5.appendChild(day5DescEl);
 
   var day5New = new Date(day5Date)
-  var day5DateEl = document.createElement('p');
-  day5DateEl.textContent = 'Date: ' + day5New.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  var day5DateEl = document.createElement("p");
+  day5DateEl.textContent = "Date: " + day5New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   day5.appendChild(day5DateEl);
 
-  var day5TempMinEl = document.createElement('p');
-  day5TempMinEl.textContent = 'Temp Min: ' + day5TempMin + " °C";
+  var day5TempMinEl = document.createElement("p");
+  day5TempMinEl.textContent = "Temp Min: " + day5TempMin + " °C";
   day5.appendChild(day5TempMinEl);
 
-  var day5TempMaxEl = document.createElement('p');
-  day5TempMaxEl.textContent = 'Temp Max: ' + day5TempMax + " °C";
+  var day5TempMaxEl = document.createElement("p");
+  day5TempMaxEl.textContent = "Temp Max: " + day5TempMax + " °C";
   day5.appendChild(day5TempMaxEl);
-
-
- 
 
 }
 
 
-inputBtn.addEventListener('click', formSubmitHandler);
 
+inputBtn.addEventListener("click", formSubmitHandler);
+
+
+/*
+
+document.querySelector("#btn-search").addEventListener("click", function(){
+  
+
+  })
+  
+  function getSearches() {
+    var searches = {city:[getCity]};
+    var myJSON = localStorage.getItem("searches");
+    if (myJSON) {
+      searches = JSON.parse(myJSON);
+    }
+    return searches;
+  }
+  
+  
+
+
+
+ 
+
+
+
+// Retrieve existing data from local storage
+let existingData = localStorage.getItem("City");
+
+// Check if data already exists
+let dataArray = existingData ? JSON.parse(existingData) : [];
+
+// Add new input to the data array
+dataArray.push();
+
+// Store the updated data array in local storage
+localStorage.setItem("City", JSON.stringify(dataArray));
 
 
 
 //https://openweathermap.org/weather-data    https://openweathermap.org/api/accumulated-parameters
+
+///GEOLOCALIZACION PARA LLENAR EL INPUT
+*/
