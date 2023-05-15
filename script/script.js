@@ -38,23 +38,24 @@ function formSubmitHandler(event) {
 
   if (city) {
     getCity(city);
+    clearForecast();
     inputSearch.value = "";
   } else {
     alert("Please enter a City");
   }
- 
-allCities = []
 
-function submit() {
-  var cities = document.inputSearch.value;
-  allCities.push(cities);
-  localStorage.setItem("names", cities)
-}
+  allCities = []
+
+  function submit() {
+    var cities = document.inputSearch.value;
+    allCities.push(cities);
+    localStorage.setItem("names", cities)
+  }
 }
 
 var getCity = function (city) {
   var apiUrl = apiCall + city + apiStateCountryCall + apiUnit + apiKey;
-  
+
 
   fetch(apiUrl)
     .then(function (response) {
@@ -65,13 +66,13 @@ var getCity = function (city) {
           cityName.textContent = data.name + ", " + data.sys.country;
         });
         // Add city to search history array and save to localStorage
-searchHistoryArray.push(city);
-localStorage.setItem("Search Results", JSON.stringify(searchHistoryArray));
+        searchHistoryArray.push(city);
+        localStorage.setItem("Search Results", JSON.stringify(searchHistoryArray));
 
-// Add city to search history list
-var searchItem = document.createElement("li");
-searchItem.textContent = city;
-searchHistory.appendChild(searchItem);
+        // Add city to search history list
+        var searchItem = document.createElement("li");
+        searchItem.textContent = city;
+        searchHistory.appendChild(searchItem);
 
 
       } else {
@@ -82,11 +83,9 @@ searchHistory.appendChild(searchItem);
       alert("Unable to connect to Weather Map");
     });
 
+  }
 
-
-}
-
-var displayCity = function (data) {
+  var displayCity = function (data) {
   var temperatureEl = document.querySelector("#temperature");
   var descriptionEl = document.querySelector("#description");
   var humidityEl = document.querySelector("#humidity");
@@ -99,12 +98,13 @@ var displayCity = function (data) {
   descriptionEl.textContent = "Weather: " + descriptionPrint;
   humidityEl.textContent = "Humidity: " + humidityPrint + " %";
 
- getForecast(data.name)
-}
+  getForecast(data.name)
 
-//get forecast
-var getForecast = function (city) {
-  var apiUrl2 = apiCallForecast + city + apiStateCountryCall+ apiUnit + apiKey;
+  }
+
+  //get forecast
+  var getForecast = function (city) {
+  var apiUrl2 = apiCallForecast + city + apiStateCountryCall + apiUnit + apiKey;
   fetch(apiUrl2)
     .then(function (response1) {
       if (response1.ok) {
@@ -121,57 +121,56 @@ var getForecast = function (city) {
     });
 
     
-}
-var displayForecast = function (dataFor) {
+  var displayForecast = function (dataFor) {
   var day1 = document.querySelector("#day-1");
   var day2 = document.querySelector("#day-2");
   var day3 = document.querySelector("#day-3");
   var day4 = document.querySelector("#day-4");
   var day5 = document.querySelector("#day-5");
-  
-  forecastTitle.textContent="5-Day Forecast"
+
+  forecastTitle.textContent = "5-Day Forecast"
 
   var day1Temp = dataFor.list[0].main.temp;
   var day1x = dataFor.list[0].weather[0].icon;
-  var day1Desc = "http://openweathermap.org/img/w/"+ day1x + ".png";
-  var day1Wind= dataFor.list[0].wind.speed;
+  var day1Desc = "http://openweathermap.org/img/w/" + day1x + ".png";
+  var day1Wind = dataFor.list[0].wind.speed;
   var day1Date = dataFor.list[0].dt_txt;
   var day1Humidity = dataFor.list[0].main.humidity;
 
   var day2Temp = dataFor.list[8].main.temp;
   var day2x = dataFor.list[8].weather[0].icon;
-  var day2Desc = "http://openweathermap.org/img/w/"+ day2x + ".png";
-  var day2Wind= dataFor.list[8].wind.speed;
+  var day2Desc = "http://openweathermap.org/img/w/" + day2x + ".png";
+  var day2Wind = dataFor.list[8].wind.speed;
   var day2Date = dataFor.list[8].dt_txt;
   var day2Humidity = dataFor.list[8].main.humidity;
 
   var day3Temp = dataFor.list[16].main.temp;
   var day3x = dataFor.list[16].weather[0].icon;
-  var day3Desc = "http://openweathermap.org/img/w/"+ day3x + ".png";
-  var day3Wind= dataFor.list[16].wind.speed;
+  var day3Desc = "http://openweathermap.org/img/w/" + day3x + ".png";
+  var day3Wind = dataFor.list[16].wind.speed;
   var day3Date = dataFor.list[16].dt_txt;
   var day3Humidity = dataFor.list[16].main.humidity;
 
   var day4Temp = dataFor.list[24].main.temp;
   var day4x = dataFor.list[24].weather[0].icon;
-  var day4Desc = "http://openweathermap.org/img/w/"+ day4x + ".png"
-  var day4Wind= dataFor.list[24].wind.speed;
+  var day4Desc = "http://openweathermap.org/img/w/" + day4x + ".png"
+  var day4Wind = dataFor.list[24].wind.speed;
   var day4Date = dataFor.list[24].dt_txt;
   var day4Humidity = dataFor.list[24].main.humidity;
 
   var day5Temp = dataFor.list[32].main.temp;
   var day5x = dataFor.list[32].weather[0].icon;
-  var day5Desc = "http://openweathermap.org/img/w/"+ day5x + ".png"
-  var day5Wind= dataFor.list[32].wind.speed;
+  var day5Desc = "http://openweathermap.org/img/w/" + day5x + ".png"
+  var day5Wind = dataFor.list[32].wind.speed;
   var day5Date = dataFor.list[32].dt_txt;
   var day5Humidity = dataFor.list[32].main.humidity;
-  
+
 
   //DAY 1
 
-  var day1New = new Date (day1Date)
+  var day1New = new Date(day1Date)
   var day1DateEl = document.createElement("p");
-  day1DateEl.textContent = day1New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric"});
+  day1DateEl.textContent = day1New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   day1.appendChild(day1DateEl);
 
   var day1DescEl = document.createElement("img");
@@ -183,7 +182,7 @@ var displayForecast = function (dataFor) {
   var day1WindEl = document.createElement("p");
   day1WindEl.textContent = "Wind: " + day1Wind + " Km/h";
   day1.appendChild(day1WindEl);
- 
+
   var day1TempEl = document.createElement("p");
   day1TempEl.textContent = "Temp: " + day1Temp + " °C";
   day1.appendChild(day1TempEl);
@@ -192,11 +191,11 @@ var displayForecast = function (dataFor) {
   day1HumEl.textContent = "Humidity: " + day1Humidity + " %";
   day1.appendChild(day1HumEl);
 
- 
+
 
   /// DAY 2
 
-  var day2New = new Date (day2Date)
+  var day2New = new Date(day2Date)
   var day2DateEl = document.createElement("p");
   day2DateEl.textContent = day2New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   day2.appendChild(day2DateEl);
@@ -218,16 +217,16 @@ var displayForecast = function (dataFor) {
   var day2HumEl = document.createElement("p");
   day2HumEl.textContent = "Humidity: " + day2Humidity + " %";
   day2.appendChild(day2HumEl);
- 
+
 
 
   // DAY 3
 
-  var day3New = new Date (day3Date)
+  var day3New = new Date(day3Date)
   var day3DateEl = document.createElement("p");
-  day3DateEl.textContent =  day3New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  day3DateEl.textContent = day3New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   day3.appendChild(day3DateEl);
-  
+
   var day3DescEl = document.createElement("img");
   day3DescEl.setAttribute("src", day3Desc)
   day3.appendChild(day3DescEl);
@@ -246,18 +245,18 @@ var displayForecast = function (dataFor) {
   day3.appendChild(day3HumEl);
 
 
- // DAY 4
+  // DAY 4
 
- var day4New = new Date (day4Date)
- var day4DateEl = document.createElement("p");
- day4DateEl.textContent = day4New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
- day4.appendChild(day4DateEl);
+  var day4New = new Date(day4Date)
+  var day4DateEl = document.createElement("p");
+  day4DateEl.textContent = day4New.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  day4.appendChild(day4DateEl);
 
- var day4DescEl = document.createElement("img");
- day4DescEl.setAttribute("src", day4Desc)
- day4.appendChild(day4DescEl);
+  var day4DescEl = document.createElement("img");
+  day4DescEl.setAttribute("src", day4Desc)
+  day4.appendChild(day4DescEl);
 
-  
+
   var day4WindEl = document.createElement("p");
   day4WindEl.textContent = "Wind: " + day4Wind + " Km/h";
   day4.appendChild(day4WindEl);
@@ -297,8 +296,31 @@ var displayForecast = function (dataFor) {
   day5HumEl.textContent = "Humidity: " + day5Humidity + " %";
   day5.appendChild(day5HumEl);
 }
+  }
 
-
+function clearForecast () {
+    var day1 = document.querySelector("#day-1");
+    var day2 = document.querySelector("#day-2");
+    var day3 = document.querySelector("#day-3");
+    var day4 = document.querySelector("#day-4");
+    var day5 = document.querySelector("#day-5");
+  
+    while (day1.firstChild) {
+      day1.removeChild(day1.firstChild);
+    }
+    while (day2.firstChild) {
+      day2.removeChild(day2.firstChild);
+    }
+    while (day3.firstChild) {
+      day3.removeChild(day3.firstChild);
+    }
+    while (day4.firstChild) {
+      day4.removeChild(day4.firstChild);
+    }
+    while (day5.firstChild) {
+      day5.removeChild(day5.firstChild);
+    }
+  };
 
 inputBtn.addEventListener("click", formSubmitHandler);
 
