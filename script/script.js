@@ -19,16 +19,17 @@ var apiUnit = "&units=metric";
 var apiKey = "&appid=5870a7ba8243f556b3b63a64facf2c17";
 
 
-/// Keypress event in search bar
-inputSearch.addEventListener("keypress", function (event) {
-  if (event.keyCode === 13) {
-    formSubmitHandler(event)
-  }
-})
-
 
 // Onload function 
 window.onload = function () {
+  /// Keypress event in search bar
+  inputSearch.addEventListener("keypress", function (event) {
+    if (event.keyCode === 13) {
+      formSubmitHandler(event)
+      
+    }
+  })
+  
   // Get search history from localStorage
   var searchHistoryArray;
   if (localStorage.getItem("searchResults")) {
@@ -54,6 +55,7 @@ window.onload = function () {
 
   /// Principal trigger 
   function formSubmitHandler(event) {
+    console.log("formHandler")
     event.preventDefault();
 
     var city = inputSearch.value;

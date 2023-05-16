@@ -5,6 +5,7 @@
     font-family: 'Roboto Mono', monospace;
 }
 
+
 /* Style Header - gradient style from https://cssgradient.io/ */
 header {
     background: rgb(0, 36, 0);
@@ -16,8 +17,13 @@ header {
 /* input search */
 .input-group {
     width: 30%;
+    margin-left: 5px;
+    text-transform: capitalize;
 }
 
+label {
+    margin-left: 5px;
+}
 /* Style search box */
 h2 {
     font-size: 18px;
@@ -27,6 +33,12 @@ h2 {
 #search-box {
     width: 25%;
     text-align: center;
+}
+
+.custom-bg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* remove border from bootstrap  */
@@ -40,6 +52,7 @@ h2 {
     text-align: center;
 }
 
+
 #day-1,
 #day-2,
 #day-3,
@@ -52,7 +65,9 @@ h2 {
 
 }
 
-
+#forecast {
+    margin: 0 20px;
+}
 /* Style search history */
 
 ul {
@@ -63,6 +78,9 @@ ul {
     margin-top: 15px;
 }
 
+#ul-search-history li{
+ padding: 8px;
+}
 
 /* style from https://getcssscan.com/css-buttons-examples */
 button {
