@@ -55,7 +55,7 @@ window.onload = function () {
 
   /// Principal trigger 
   function formSubmitHandler(event) {
-    console.log("formHandler")
+  
     event.preventDefault();
 
     var city = inputSearch.value;
@@ -76,7 +76,6 @@ window.onload = function () {
       .then(function (response) {
         if (response.ok) {
           response.json().then(function (data) {
-            console.log(data);
             displayCity(data);
             var cityComplet = data.name + ", " + data.sys.country
             cityName.textContent = cityComplet;
@@ -133,7 +132,6 @@ window.onload = function () {
       .then(function (response1) {
         if (response1.ok) {
           response1.json().then(function (dataFor) {
-            console.log(dataFor);
             displayForecast(dataFor);
           });
         } else {

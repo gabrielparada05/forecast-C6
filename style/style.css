@@ -82,6 +82,10 @@ ul {
  padding: 8px;
 }
 
+#ul-search-history {
+    padding: 0;
+}
+
 /* style from https://getcssscan.com/css-buttons-examples */
 button {
     appearance: none;
@@ -170,6 +174,5 @@ button:active {
     #day-4,
     #day-5 {
         width: fit-content;
-
     }
 }
