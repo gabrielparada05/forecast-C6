@@ -10,32 +10,34 @@ var apiUnit = "&units=metric";
 var apiKey = "&appid=5870a7ba8243f556b3b63a64facf2c17";
 var cityName = document.querySelector("#cityName");
 var searchHistory = document.querySelector(".search-history");
-var searchStorage = document.querySelector(".storage-history");
 var forecastTitle = document.querySelector("#forecast-title");
 var ulSearch = document.querySelector("#ul-search-history");
 
 // Get search history from localStorage
+inputSearch.addEventListener("keypress", function(event) {
+  if (event.keyCode === 13) {
+    formSubmitHandler(event)
+  } 
 
+  })
 var searchHistoryArray;
 if (localStorage.getItem("searchResults")) {
   searchHistoryArray = JSON.parse(localStorage.getItem("searchResults"));
-  var newArr = searchHistoryArray.slice(0, 7)
-  for (var i = 0; i < newArr.length; i++) {
+  var newArr = searchHistoryArray.slice(0, 7);
+  newArr.forEach(city => {
     var listBtn = document.createElement("li");
-
     var newBtn = document.createElement("button");
-    newBtn.textContent = searchHistoryArray[i];
+    newBtn.textContent = city;
     listBtn.appendChild(newBtn);
     ulSearch.appendChild(listBtn);
+    newBtn.onclick = function () {
+      getCity(city, false);
+      clearForecast();
+    }
+  });
 
-
-  }
 } else {
   searchHistoryArray = [];
-}
-
-function trigger() {
-  console.log("trigger")
 }
 
 /// Call current
@@ -51,19 +53,10 @@ function formSubmitHandler(event) {
   } else {
     alert("Please enter a City");
   }
-
-  /* allCities = []***************************************
- 
-   function submit() {
-     var cities = document.inputSearch.value;
-     allCities.unshift(cities);
-     localStorage.setItem("names", cities) 
-   }*/
 }
 
-var getCity = function (city) {
+var getCity = function (city, addToLocalStorage = true) {
   var apiUrl = apiCall + city + apiStateCountryCall + apiUnit + apiKey;
-
 
   fetch(apiUrl)
     .then(function (response) {
@@ -71,18 +64,25 @@ var getCity = function (city) {
         response.json().then(function (data) {
           console.log(data);
           displayCity(data);
-          cityName.textContent = data.name + ", " + data.sys.country;
-        });
-        // Add city to search history array and save to localStorage
-        searchHistoryArray.unshift(city);
-        localStorage.setItem("searchResults", JSON.stringify(searchHistoryArray));
-
-        // Add city to search history list
-        var searchItem = document.createElement("li");
-        searchItem.textContent = city;
-        searchHistory.appendChild(searchItem);
-
-
+          var cityComplet = data.name + ", " + data.sys.country
+          cityName.textContent = cityComplet;
+          if (addToLocalStorage) {
+            // Add city to search history array and save to localStorage
+            searchHistoryArray.unshift(cityComplet);
+            localStorage.setItem("searchResults", JSON.stringify(searchHistoryArray));
+  
+            // Add city to search history list
+          
+            var listBtn2 = document.createElement("li");
+            var newBtn2 = document.createElement("button");
+            newBtn2.textContent = cityComplet;
+            listBtn2.appendChild(newBtn2); 
+            if (ulSearch.children.length > 7) {
+              ulSearch.removeChild(ulSearch.lastChild)
+            } 
+            ulSearch.prepend(listBtn2)
+          }
+        })
       } else {
         alert("Error: " + response.statusText);
       }
@@ -183,6 +183,7 @@ var getForecast = function (city) {
 
     var day1DescEl = document.createElement("img");
     day1DescEl.setAttribute("src", day1Desc)
+    day1DescEl.setAttribute("alt", "")
     day1.appendChild(day1DescEl);
 
     var day1WindEl = document.createElement("p");
@@ -208,6 +209,7 @@ var getForecast = function (city) {
 
     var day2DescEl = document.createElement("img");
     day2DescEl.setAttribute("src", day2Desc)
+    day2DescEl.setAttribute("alt", "")
     day2.appendChild(day2DescEl);
 
 
@@ -234,7 +236,8 @@ var getForecast = function (city) {
     day3.appendChild(day3DateEl);
 
     var day3DescEl = document.createElement("img");
-    day3DescEl.setAttribute("src", day3Desc)
+    day3DescEl.setAttribute("src", day3Desc);
+    day3DescEl.setAttribute("alt", "")
     day3.appendChild(day3DescEl);
 
 
@@ -259,7 +262,8 @@ var getForecast = function (city) {
     day4.appendChild(day4DateEl);
 
     var day4DescEl = document.createElement("img");
-    day4DescEl.setAttribute("src", day4Desc)
+    day4DescEl.setAttribute("src", day4Desc);
+    day4DescEl.setAttribute("alt", "")
     day4.appendChild(day4DescEl);
 
 
@@ -287,6 +291,7 @@ var getForecast = function (city) {
 
     var day5DescEl = document.createElement("img");
     day5DescEl.setAttribute("src", day5Desc)
+    day5DescEl.setAttribute("alt", "")
     day5.appendChild(day5DescEl);
 
 
