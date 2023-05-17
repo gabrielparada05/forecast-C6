@@ -21,7 +21,7 @@ var apiKey = "&appid=5870a7ba8243f556b3b63a64facf2c17";
 
 
 // Onload function 
-window.onload = function () {
+
   /// Keypress event in search bar
   inputSearch.addEventListener("keypress", function (event) {
     if (event.keyCode === 13) {
@@ -359,4 +359,3 @@ window.onload = function () {
 ///TRIGGER
   inputBtn.addEventListener("click", formSubmitHandler);
 
-}
