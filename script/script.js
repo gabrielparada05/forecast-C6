@@ -20,7 +20,6 @@ var apiKey = "&appid=5870a7ba8243f556b3b63a64facf2c17";
 
 
 
-// Onload function 
 
   /// Keypress event in search bar
   inputSearch.addEventListener("keypress", function (event) {
@@ -90,6 +89,11 @@ var apiKey = "&appid=5870a7ba8243f556b3b63a64facf2c17";
               var newBtn2 = document.createElement("button");
               newBtn2.textContent = cityComplet;
               listBtn2.appendChild(newBtn2);
+              newBtn2.onclick = function () {
+                // Do a fetch on the buttons displayed but does not include again in the localStorage
+                getCity(city, false);
+                clearForecast();
+              }
                // Only show 8 elements in  history-search
               if (ulSearch.children.length > 7) {
                 ulSearch.removeChild(ulSearch.lastChild)
@@ -358,4 +362,3 @@ var apiKey = "&appid=5870a7ba8243f556b3b63a64facf2c17";
   };
 ///TRIGGER
   inputBtn.addEventListener("click", formSubmitHandler);
-
